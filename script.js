@@ -41,7 +41,7 @@ const simulation = d3.forceSimulation(tasks)
     .force("link", d3.forceLink(links).id(d => d.id).distance(150))
     .force("charge", d3.forceManyBody().strength(-500))
     .force("center", d3.forceCenter(width / 2, height / 2))
-    .force("collide", d3.forceCollide(100))  // Prevent overlap for rectangles
+    .force("collide", d3.forceCollide().radius(d => (d.name.length * 10 + 40) / 2))  // Avoid collisions
     .on("tick", ticked);
 
 // Draw links
