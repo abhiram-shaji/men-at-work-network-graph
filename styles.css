@@ -16,6 +16,7 @@ svg {
     fill: lightblue;
     stroke: steelblue;
     stroke-width: 2px;
+    cursor: pointer;
 }
 
 .link {
