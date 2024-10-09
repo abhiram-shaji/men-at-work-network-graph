@@ -2,16 +2,28 @@ import { tasks, links } from './data.js';
 
 // Set up the SVG canvas dimensions and add zoom/pan support
 const svg = d3.select("svg")
-    .attr("width", window.innerWidth)
-    .attr("height", window.innerHeight)
+    .attr("width", "100%")  // Allow the SVG to use full width
+    .attr("height", "100%") // Allow the SVG to use full height
+    .attr("viewBox", `0 0 ${window.innerWidth} ${window.innerHeight}`)
+    .attr("preserveAspectRatio", "xMidYMid meet") // Ensures the aspect ratio is maintained
     .call(d3.zoom().on("zoom", function (event) {
         svgGroup.attr("transform", event.transform);
     }));
 
 const svgGroup = svg.append("g"); // Group for pan and zoom
 
-const width = window.innerWidth;
-const height = window.innerHeight;
+let width = window.innerWidth;
+let height = window.innerHeight;
+
+function resizeSVG() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    svg.attr("viewBox", `0 0 ${width} ${height}`);  // Dynamically adjust the viewBox
+    simulation.force("center", d3.forceCenter(width / 2, height / 2)).restart();
+}
+
+// Call resize function on window resize
+window.addEventListener("resize", resizeSVG);
 
 // Function to load saved node positions from local storage
 function loadNodePositions() {
@@ -34,7 +46,7 @@ loadNodePositions();
 const simulation = d3.forceSimulation(tasks)
     .force("link", d3.forceLink(links)
         .id(d => d.id)
-        .distance(300) // Increase distance to allow longer links
+        .distance(1000) // Increase distance to allow longer links
         .strength(0))  // Reduce strength to make the links stretchable
     .force("charge", null)  // Remove the charge force that causes repelling
     .force("center", d3.forceCenter(width / 2, height / 2))
@@ -87,14 +99,15 @@ node.append("text")
 // Update node and link positions during simulation
 function ticked() {
     link
-        .attr("x1", d => Math.max(20, Math.min(width - 20, d.source.x)))
-        .attr("y1", d => Math.max(20, Math.min(height - 20, d.source.y)))
-        .attr("x2", d => Math.max(20, Math.min(width - 20, d.target.x)))
-        .attr("y2", d => Math.max(20, Math.min(height - 20, d.target.y)));
+        .attr("x1", d => d.source.x)
+        .attr("y1", d => d.source.y)
+        .attr("x2", d => d.target.x)
+        .attr("y2", d => d.target.y);
 
     node
-        .attr("transform", d => `translate(${Math.max(20, Math.min(width - 20, d.x))}, ${Math.max(20, Math.min(height - 20, d.y))})`);
+        .attr("transform", d => `translate(${d.x}, ${d.y})`);
 }
+
 
 // Drag behavior functions
 function dragstarted(event, d) {
