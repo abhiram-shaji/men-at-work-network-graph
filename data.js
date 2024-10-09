@@ -78,44 +78,44 @@ export const links = [
 
     // Subtasks links (within Technology Setup)
     { source: 2, target: 20 },
-    { source: 20, target: 21 },
-    { source: 21, target: 22 },
+    { source: 2, target: 21 },
+    { source: 2, target: 22 },
 
     // Subtasks links (within Design Phase)
     { source: 3, target: 30 },
-    { source: 30, target: 31 },
-    { source: 31, target: 32 },
-    { source: 32, target: 33 },
-    { source: 33, target: 34 },
-    { source: 34, target: 35 },
+    { source: 3, target: 31 },
+    { source: 3, target: 32 },
+    { source: 3, target: 33 },
+    { source: 3, target: 34 },
+    { source: 3, target: 35 },
 
     // Subtasks links (within Development Phase)
     { source: 4, target: 40 },
-    { source: 40, target: 41 },
-    { source: 41, target: 42 },
-    { source: 42, target: 43 },
-    { source: 43, target: 44 },
+    { source: 4, target: 41 },
+    { source: 4, target: 42 },
+    { source: 4, target: 43 },
+    { source: 4, target: 44 },
 
     // Subtasks links (within Content Integration)
     { source: 5, target: 50 },
-    { source: 50, target: 51 },
+    { source: 5, target: 51 },
 
     // Subtasks links (within Testing Phase)
     { source: 6, target: 60 },
-    { source: 60, target: 61 },
-    { source: 61, target: 62 },
+    { source: 6, target: 61 },
+    { source: 6, target: 62 },
 
     // Subtasks links (within Launch Preparation)
     { source: 7, target: 70 },
-    { source: 70, target: 71 },
-    { source: 71, target: 72 },
+    { source: 7, target: 71 },
+    { source: 7, target: 72 },
 
     // Subtasks links (within Launch)
     { source: 8, target: 80 },
-    { source: 80, target: 81 },
+    { source: 8, target: 81 },
 
     // Subtasks links (within Post-Launch)
     { source: 9, target: 90 },
-    { source: 90, target: 91 },
-    { source: 91, target: 92 }
+    { source: 9, target: 91 },
+    { source: 9, target: 92 }
 ];

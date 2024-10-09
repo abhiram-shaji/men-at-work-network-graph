@@ -21,7 +21,14 @@ const simulation = d3.forceSimulation(tasks)
     .force("link", d3.forceLink(links).id(d => d.id).distance(150))
     .force("charge", d3.forceManyBody().strength(-500))
     .force("center", d3.forceCenter(width / 2, height / 2))
-    .force("collide", d3.forceCollide().radius(d => (d.name.length * 10 + 40) / 2))  // Avoid collisions
+    .force("collide", d3.forceCollide().radius(d => {
+        // Assign larger collision radius for subtasks
+        if (d.id > 9) { // IDs greater than 9 are subtasks
+            return (d.name.length * 10 + 60) / 2; // Larger radius for subtasks
+        } else {
+            return (d.name.length * 10 + 40) / 2; // Main tasks have regular collision radius
+        }
+    }).iterations(2)) // Increase iterations to improve collision detection
     .on("tick", ticked);
 
 // Draw links
