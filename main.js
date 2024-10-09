@@ -13,22 +13,13 @@ const svgGroup = svg.append("g"); // Group for pan and zoom
 const width = window.innerWidth;
 const height = window.innerHeight;
 
-// Fix Y position for main tasks to the top
-const mainTaskFixedY = 100; // Adjust this value as needed for spacing
-
 // Create a simulation to layout the nodes and links
 const simulation = d3.forceSimulation(tasks)
     .force("link", d3.forceLink(links).id(d => d.id).distance(150))
-    .force("charge", d3.forceManyBody().strength(-500))
+    .force("charge", null)  // Remove the charge force that causes repelling
     .force("center", d3.forceCenter(width / 2, height / 2))
-    .force("collide", d3.forceCollide().radius(d => {
-        // Assign larger collision radius for subtasks
-        if (d.id > 9) { // IDs greater than 9 are subtasks
-            return (d.name.length * 10 + 60) / 2; // Larger radius for subtasks
-        } else {
-            return (d.name.length * 10 + 40) / 2; // Main tasks have regular collision radius
-        }
-    }).iterations(2)) // Increase iterations to improve collision detection
+    .force("x", null)  // Remove horizontal repelling force
+    .force("y", null)  // Remove vertical repelling force
     .on("tick", ticked);
 
 // Draw links
@@ -78,13 +69,7 @@ function ticked() {
         .attr("y2", d => Math.max(20, Math.min(height - 20, d.target.y)));
 
     node
-        .attr("transform", d => {
-            // Stick the main tasks to the top with a fixed y position
-            if ([1, 2, 3, 4, 5, 6, 7, 8, 9].includes(d.id)) {
-                d.y = mainTaskFixedY;  // Fixed y position for main tasks
-            }
-            return `translate(${Math.max(20, Math.min(width - 20, d.x))}, ${Math.max(20, Math.min(height - 20, d.y))})`;
-        });
+        .attr("transform", d => `translate(${Math.max(20, Math.min(width - 20, d.x))}, ${Math.max(20, Math.min(height - 20, d.y))})`);
 }
 
 // Drag behavior functions
@@ -101,16 +86,8 @@ function dragged(event, d) {
 
 function dragended(event, d) {
     if (!event.active) simulation.alphaTarget(0);
-    
-    // Stick the first and last nodes back to their designated x positions
-    if (d.id === 1) {  // Project Planning node
-        d.fx = 50;  // Snap back to fixed x on the left
-    } else if (d.id === 9) {  // Full Launch node
-        d.fx = width - 150;  // Snap back to fixed x on the right
-    } else {
-        d.fx = null;  // Allow other nodes to stay where they are
-    }
-    d.fy = null;  // Vertical movement can remain free
+    d.fx = null;  // Allow nodes to stay where they are moved
+    d.fy = null;
 }
 
 // Highlight node and links on mouseover
@@ -140,7 +117,4 @@ window.addEventListener("resize", () => {
 
     svg.attr("width", newWidth).attr("height", newHeight);
     simulation.force("center", d3.forceCenter(newWidth / 2, newHeight / 2)).restart();
-
-    tasks.find(d => d.id === 1).fx = 50;
-    tasks.find(d => d.id === 9).fx = newWidth - 150;
 });
