@@ -49,12 +49,13 @@ export const tasks = [
     { id: 72, name: "CMS training (Abdul & Tyrell)", group: 7 },
 
     // Launch (Group 8)
-    { id: 8, name: "Soft Launch & Fixes", group: 8 },
+    { id: 8, name: "Launch", group: 8 },
     { id: 80, name: "Soft launch (Abhiram & Abdul)", group: 8 },
     { id: 81, name: "Fix soft launch issues (Yogesh & Tyrell)", group: 8 },
-    { id: 9, name: "Full Launch", group: 8, fx: window.innerWidth - 150 },
+    { id: 82, name: "Full Launch", group: 8 },
 
     // Post-Launch (Group 9)
+    { id: 9, name: "Post-Launch Maintenance", group: 9 },
     { id: 90, name: "Bug fixes (Yogesh)", group: 9 },
     { id: 91, name: "Implement feedback (Tyrell & Tousin)", group: 9 },
     { id: 92, name: "Analytics review (Abdul)", group: 9 }
@@ -115,6 +116,7 @@ export const links = [
     // Subtasks links (within Launch)
     { source: 8, target: 80 },
     { source: 8, target: 81 },
+    { source: 8, target: 82 },
 
     // Subtasks links (within Post-Launch)
     { source: 9, target: 90 },
