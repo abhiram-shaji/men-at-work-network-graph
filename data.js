@@ -1,61 +1,63 @@
+//data.js
+
 export const tasks = [
-    // Project Planning and Setup
-    { id: 1, name: "Project Planning", fx: 50 },
-    { id: 10, name: "Review RFP (Tyrell & Abdul)" },
-    { id: 11, name: "Set up project management (Abhiram)" },
-    { id: 12, name: "Define roles and tasks (Tyrell)" },
-    { id: 13, name: "Create timeline (Tousin & Tyrell)" },
+    // Project Planning and Setup (Group 1)
+    { id: 1, name: "Project Planning", group: 1, fx: 50 },
+    { id: 10, name: "Review RFP (Tyrell & Abdul)", group: 1 },
+    { id: 11, name: "Set up project management (Abhiram)", group: 1 },
+    { id: 12, name: "Define roles and tasks (Tyrell)", group: 1 },
+    { id: 13, name: "Create timeline (Tousin & Tyrell)", group: 1 },
 
-    // Technology Setup
-    { id: 2, name: "Tech Stack Setup" },
-    { id: 20, name: "Choose tech stack (Abhiram & Yogesh)" },
-    { id: 21, name: "Set up environment and repository (Yogesh)" },
-    { id: 22, name: "Set up CI/CD (Abhiram)" },
+    // Technology Setup (Group 2)
+    { id: 2, name: "Tech Stack Setup", group: 2 },
+    { id: 20, name: "Choose tech stack (Abhiram & Yogesh)", group: 2 },
+    { id: 21, name: "Set up environment and repository (Yogesh)", group: 2 },
+    { id: 22, name: "Set up CI/CD (Abhiram)", group: 2 },
 
-    // Design Phase
-    { id: 3, name: "Design Phase" },
-    { id: 30, name: "Home Page Design (Tyrell)" },
-    { id: 31, name: "About Page Design (Tousin)" },
-    { id: 32, name: "Presenters Page Design (Tyrell)" },
-    { id: 33, name: "Schedule Page Design (Tousin)" },
-    { id: 34, name: "Registration Page Design (Tyrell)" },
-    { id: 35, name: "Design review (Tyrell & Abdul)" },
+    // Design Phase (Group 3)
+    { id: 3, name: "Design Phase", group: 3 },
+    { id: 30, name: "Home Page Design (Tyrell)", group: 3 },
+    { id: 31, name: "About Page Design (Tousin)", group: 3 },
+    { id: 32, name: "Presenters Page Design (Tyrell)", group: 3 },
+    { id: 33, name: "Schedule Page Design (Tousin)", group: 3 },
+    { id: 34, name: "Registration Page Design (Tyrell)", group: 3 },
+    { id: 35, name: "Design review (Tyrell & Abdul)", group: 3 },
 
-    // Development Phase
-    { id: 4, name: "Frontend & Backend Development" },
-    { id: 40, name: "Frontend (Abhiram & Yogesh)" },
-    { id: 41, name: "Backend - User management, CMS (Abhiram)" },
-    { id: 42, name: "Payment integration (Yogesh)" },
-    { id: 43, name: "SEO, Accessibility, Social Media (Abhiram & Tyrell)" },
-    { id: 44, name: "Analytics setup (Yogesh)" },
+    // Development Phase (Group 4)
+    { id: 4, name: "Frontend & Backend Development", group: 4 },
+    { id: 40, name: "Frontend (Abhiram & Yogesh)", group: 4 },
+    { id: 41, name: "Backend - User management, CMS (Abhiram)", group: 4 },
+    { id: 42, name: "Payment integration (Yogesh)", group: 4 },
+    { id: 43, name: "SEO, Accessibility, Social Media (Abhiram & Tyrell)", group: 4 },
+    { id: 44, name: "Analytics setup (Yogesh)", group: 4 },
 
-    // Content Integration
-    { id: 5, name: "Content Integration" },
-    { id: 50, name: "Collect content (Abdul)" },
-    { id: 51, name: "Upload to CMS (Tyrell & Abdul)" },
+    // Content Integration (Group 5)
+    { id: 5, name: "Content Integration", group: 5 },
+    { id: 50, name: "Collect content (Abdul)", group: 5 },
+    { id: 51, name: "Upload to CMS (Tyrell & Abdul)", group: 5 },
 
-    // Testing Phase
-    { id: 6, name: "Testing" },
-    { id: 60, name: "Unit/functional testing (Yogesh & Abdul)" },
-    { id: 61, name: "Payment testing (Abdul)" },
-    { id: 62, name: "Responsiveness testing (Tousin & Abdul)" },
+    // Testing Phase (Group 6)
+    { id: 6, name: "Testing", group: 6 },
+    { id: 60, name: "Unit/functional testing (Yogesh & Abdul)", group: 6 },
+    { id: 61, name: "Payment testing (Abdul)", group: 6 },
+    { id: 62, name: "Responsiveness testing (Tousin & Abdul)", group: 6 },
 
-    // Launch Prep
-    { id: 7, name: "Launch Preparation" },
-    { id: 70, name: "Optimize website (Yogesh)" },
-    { id: 71, name: "Final hosting setup, domain, SSL (Abhiram)" },
-    { id: 72, name: "CMS training (Abdul & Tyrell)" },
+    // Launch Prep (Group 7)
+    { id: 7, name: "Launch Preparation", group: 7 },
+    { id: 70, name: "Optimize website (Yogesh)", group: 7 },
+    { id: 71, name: "Final hosting setup, domain, SSL (Abhiram)", group: 7 },
+    { id: 72, name: "CMS training (Abdul & Tyrell)", group: 7 },
 
-    // Launch
-    { id: 8, name: "Soft Launch & Fixes" },
-    { id: 80, name: "Soft launch (Abhiram & Abdul)" },
-    { id: 81, name: "Fix soft launch issues (Yogesh & Tyrell)" },
-    { id: 9, name: "Full Launch", fx: window.innerWidth - 150 },
+    // Launch (Group 8)
+    { id: 8, name: "Soft Launch & Fixes", group: 8 },
+    { id: 80, name: "Soft launch (Abhiram & Abdul)", group: 8 },
+    { id: 81, name: "Fix soft launch issues (Yogesh & Tyrell)", group: 8 },
+    { id: 9, name: "Full Launch", group: 8, fx: window.innerWidth - 150 },
 
-    // Post-Launch
-    { id: 90, name: "Bug fixes (Yogesh)" },
-    { id: 91, name: "Implement feedback (Tyrell & Tousin)" },
-    { id: 92, name: "Analytics review (Abdul)" }
+    // Post-Launch (Group 9)
+    { id: 90, name: "Bug fixes (Yogesh)", group: 9 },
+    { id: 91, name: "Implement feedback (Tyrell & Tousin)", group: 9 },
+    { id: 92, name: "Analytics review (Abdul)", group: 9 }
 ];
 
 // Define links (dependencies) between the tasks

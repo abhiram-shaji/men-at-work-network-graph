@@ -1,3 +1,5 @@
+//mainjs
+
 import { tasks, links } from './data.js';
 
 // Set up the SVG canvas dimensions and add zoom/pan support
@@ -18,7 +20,7 @@ const simulation = d3.forceSimulation(tasks)
     .force("link", d3.forceLink(links)
         .id(d => d.id)
         .distance(300) // Increase distance to allow longer links
-        .strength(0.1)) // Reduce strength to make the links stretchable
+        .strength(0)) // Reduce strength to make the links stretchable
     .force("charge", null)  // Remove the charge force that causes repelling
     .force("center", d3.forceCenter(width / 2, height / 2))
     .force("x", null)  // Remove horizontal repelling force
@@ -48,14 +50,19 @@ const node = svgGroup.append("g")
     .on("mouseout", handleMouseOut);  // Reset on mouseout
 
 // Append rectangles
+const colorScale = d3.scaleOrdinal(d3.schemeCategory10);  // Use D3's color scheme
+
 node.append("rect")
-    .attr("width", d => d.name.length * 10 + 20)  // Dynamic width based on text length
-    .attr("height", 40)  // Fixed height
-    .attr("x", d => -(d.name.length * 5 + 10))  // Center the rectangle horizontally
-    .attr("y", -20)  // Center the rectangle vertically
-    .attr("rx", 10)  // Rounded corners for aesthetics
+    .attr("width", d => d.name.length * 10 + 20)
+    .attr("height", 40)
+    .attr("x", d => -(d.name.length * 5 + 10))
+    .attr("y", -20)
+    .attr("rx", 10)
     .attr("ry", 10)
-    .attr("class", "node");
+    .attr("fill", d => colorScale(d.group))  // Assign color based on the group
+    .attr("stroke", d => d3.rgb(colorScale(d.group)).darker())  // Darker stroke of the same color
+    .attr("stroke-width", 2);
+
 
 // Append text inside the rectangles
 node.append("text")

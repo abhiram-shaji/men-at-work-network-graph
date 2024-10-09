@@ -1,3 +1,5 @@
+/*styles.css*/
+
 html, body {
     margin: 0;
     padding: 0;
@@ -13,9 +15,6 @@ svg {
 }
 
 .node {
-    fill: lightblue;
-    stroke: steelblue;
-    stroke-width: 2px;
     cursor: pointer;
 }
 
@@ -30,3 +29,4 @@ text {
     font: 12px sans-serif;
     pointer-events: none;
 }
+
