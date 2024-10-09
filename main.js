@@ -1,5 +1,3 @@
-//mainjs
-
 import { tasks, links } from './data.js';
 
 // Set up the SVG canvas dimensions and add zoom/pan support
@@ -15,18 +13,34 @@ const svgGroup = svg.append("g"); // Group for pan and zoom
 const width = window.innerWidth;
 const height = window.innerHeight;
 
+// Function to load saved node positions from local storage
+function loadNodePositions() {
+    const savedPositions = JSON.parse(localStorage.getItem('nodePositions'));
+    if (savedPositions) {
+        savedPositions.forEach(pos => {
+            const node = tasks.find(n => n.id === pos.id);
+            if (node) {
+                node.x = pos.x;
+                node.y = pos.y;
+            }
+        });
+    }
+}
+
+// Call this function to load positions before the simulation starts
+loadNodePositions();
+
 // Create a simulation to layout the nodes and links
 const simulation = d3.forceSimulation(tasks)
     .force("link", d3.forceLink(links)
         .id(d => d.id)
         .distance(300) // Increase distance to allow longer links
-        .strength(0)) // Reduce strength to make the links stretchable
+        .strength(0))  // Reduce strength to make the links stretchable
     .force("charge", null)  // Remove the charge force that causes repelling
     .force("center", d3.forceCenter(width / 2, height / 2))
     .force("x", null)  // Remove horizontal repelling force
     .force("y", null)  // Remove vertical repelling force
     .on("tick", ticked);
-
 
 // Draw links
 const link = svgGroup.append("g")
@@ -63,7 +77,6 @@ node.append("rect")
     .attr("stroke", d => d3.rgb(colorScale(d.group)).darker())  // Darker stroke of the same color
     .attr("stroke-width", 2);
 
-
 // Append text inside the rectangles
 node.append("text")
     .attr("dx", 0)
@@ -99,6 +112,19 @@ function dragended(event, d) {
     if (!event.active) simulation.alphaTarget(0);
     d.fx = null;  // Allow nodes to stay where they are moved
     d.fy = null;
+
+    // Save positions after dragging ends
+    saveNodePositions();
+}
+
+// Function to save node positions to local storage
+function saveNodePositions() {
+    const nodePositions = tasks.map(node => ({
+        id: node.id,
+        x: node.x,
+        y: node.y
+    }));
+    localStorage.setItem('nodePositions', JSON.stringify(nodePositions));
 }
 
 // Highlight node and links on mouseover
