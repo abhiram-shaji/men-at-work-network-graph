@@ -72,9 +72,9 @@ export const links = [
 
     // Subtasks links (within Project Planning and Setup)
     { source: 1, target: 10 },
-    { source: 10, target: 11 },
-    { source: 11, target: 12 },
-    { source: 12, target: 13 },
+    { source: 1, target: 11 },
+    { source: 1, target: 12 },
+    { source: 1, target: 13 },
 
     // Subtasks links (within Technology Setup)
     { source: 2, target: 20 },
