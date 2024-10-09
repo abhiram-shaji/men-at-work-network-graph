@@ -1,6 +1,6 @@
 // Task nodes with names and IDs
 const tasks = [
-    { id: 1, name: "Project Planning" },
+    { id: 1, name: "Project Planning", fx: 50 },  // Fixed x position on the left
     { id: 2, name: "Tech Stack Setup" },
     { id: 3, name: "Design Phase" },
     { id: 4, name: "Frontend & Backend Development" },
@@ -8,7 +8,7 @@ const tasks = [
     { id: 6, name: "Testing" },
     { id: 7, name: "Launch Preparation" },
     { id: 8, name: "Soft Launch & Fixes" },
-    { id: 9, name: "Full Launch" }
+    { id: 9, name: "Full Launch", fx: window.innerWidth - 50 }  // Fixed x position on the right
 ];
 
 // Define links (dependencies) between the tasks
@@ -41,7 +41,7 @@ const simulation = d3.forceSimulation(tasks)
     .force("link", d3.forceLink(links).id(d => d.id).distance(150))
     .force("charge", d3.forceManyBody().strength(-500))
     .force("center", d3.forceCenter(width / 2, height / 2))
-    .force("collide", d3.forceCollide(50)) // Prevent overlap
+    .force("collide", d3.forceCollide(50))  // Prevent overlap
     .on("tick", ticked);
 
 // Draw links
@@ -65,7 +65,7 @@ const node = svgGroup.append("g")
         .on("drag", dragged)
         .on("end", dragended))
     .on("mouseover", handleMouseOver) // Highlight on mouseover
-    .on("mouseout", handleMouseOut); // Reset on mouseout
+    .on("mouseout", handleMouseOut);  // Reset on mouseout
 
 // Add labels to nodes
 const text = svgGroup.append("g")
@@ -108,8 +108,16 @@ function dragged(event, d) {
 
 function dragended(event, d) {
     if (!event.active) simulation.alphaTarget(0);
-    d.fx = null;
-    d.fy = null;
+    
+    // Snap the first and last nodes back to their designated x positions
+    if (d.id === 1) {  // Project Planning node
+        d.fx = 50;  // Snap back to fixed x on the left
+    } else if (d.id === 9) {  // Full Launch node
+        d.fx = width - 50;  // Snap back to fixed x on the right
+    } else {
+        d.fx = null;  // Allow other nodes to stay where they are
+    }
+    d.fy = null;  // Vertical movement can remain free
 }
 
 // Highlight node and links on mouseover
@@ -137,4 +145,8 @@ window.addEventListener("resize", () => {
 
     svg.attr("width", newWidth).attr("height", newHeight);
     simulation.force("center", d3.forceCenter(newWidth / 2, newHeight / 2)).restart();
+
+    // Update the fixed x positions for Project Planning and Full Launch nodes
+    tasks.find(d => d.id === 1).fx = 50;
+    tasks.find(d => d.id === 9).fx = newWidth - 50;
 });
