@@ -15,12 +15,16 @@ const height = window.innerHeight;
 
 // Create a simulation to layout the nodes and links
 const simulation = d3.forceSimulation(tasks)
-    .force("link", d3.forceLink(links).id(d => d.id).distance(150))
+    .force("link", d3.forceLink(links)
+        .id(d => d.id)
+        .distance(300) // Increase distance to allow longer links
+        .strength(0.1)) // Reduce strength to make the links stretchable
     .force("charge", null)  // Remove the charge force that causes repelling
     .force("center", d3.forceCenter(width / 2, height / 2))
     .force("x", null)  // Remove horizontal repelling force
     .force("y", null)  // Remove vertical repelling force
     .on("tick", ticked);
+
 
 // Draw links
 const link = svgGroup.append("g")
