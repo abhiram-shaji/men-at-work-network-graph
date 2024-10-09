@@ -8,7 +8,7 @@ const tasks = [
     { id: 6, name: "Testing" },
     { id: 7, name: "Launch Preparation" },
     { id: 8, name: "Soft Launch & Fixes" },
-    { id: 9, name: "Full Launch", fx: window.innerWidth - 50 }  // Fixed x position on the right
+    { id: 9, name: "Full Launch", fx: window.innerWidth - 150 }  // Fixed x position on the right
 ];
 
 // Define links (dependencies) between the tasks
@@ -41,7 +41,7 @@ const simulation = d3.forceSimulation(tasks)
     .force("link", d3.forceLink(links).id(d => d.id).distance(150))
     .force("charge", d3.forceManyBody().strength(-500))
     .force("center", d3.forceCenter(width / 2, height / 2))
-    .force("collide", d3.forceCollide(50))  // Prevent overlap
+    .force("collide", d3.forceCollide(100))  // Prevent overlap for rectangles
     .on("tick", ticked);
 
 // Draw links
@@ -52,14 +52,12 @@ const link = svgGroup.append("g")
     .enter().append("line")
     .attr("class", "link");
 
-// Draw nodes with drag behavior
+// Draw rectangles with text
 const node = svgGroup.append("g")
     .attr("class", "nodes")
-    .selectAll("circle")
+    .selectAll("g")
     .data(tasks)
-    .enter().append("circle")
-    .attr("class", "node")
-    .attr("r", 20)
+    .enter().append("g")
     .call(d3.drag() // Dragging behavior
         .on("start", dragstarted)
         .on("drag", dragged)
@@ -67,14 +65,21 @@ const node = svgGroup.append("g")
     .on("mouseover", handleMouseOver) // Highlight on mouseover
     .on("mouseout", handleMouseOut);  // Reset on mouseout
 
-// Add labels to nodes
-const text = svgGroup.append("g")
-    .selectAll("text")
-    .data(tasks)
-    .enter()
-    .append("text")
-    .attr("dx", 12)
+// Append rectangles
+node.append("rect")
+    .attr("width", d => d.name.length * 10 + 20)  // Dynamic width based on text length
+    .attr("height", 40)  // Fixed height
+    .attr("x", d => -(d.name.length * 5 + 10))  // Center the rectangle horizontally
+    .attr("y", -20)  // Center the rectangle vertically
+    .attr("rx", 10)  // Rounded corners for aesthetics
+    .attr("ry", 10)
+    .attr("class", "node");
+
+// Append text inside the rectangles
+node.append("text")
+    .attr("dx", 0)
     .attr("dy", ".35em")
+    .style("text-anchor", "middle")
     .text(d => d.name);
 
 // Update node and link positions during simulation
@@ -86,12 +91,7 @@ function ticked() {
         .attr("y2", d => Math.max(20, Math.min(height - 20, d.target.y)));
 
     node
-        .attr("cx", d => Math.max(20, Math.min(width - 20, d.x)))
-        .attr("cy", d => Math.max(20, Math.min(height - 20, d.y)));
-
-    text
-        .attr("x", d => Math.max(20, Math.min(width - 20, d.x + 25)))
-        .attr("y", d => Math.max(20, Math.min(height - 20, d.y)));
+        .attr("transform", d => `translate(${Math.max(20, Math.min(width - 20, d.x))}, ${Math.max(20, Math.min(height - 20, d.y))})`);
 }
 
 // Drag behavior functions
@@ -113,7 +113,7 @@ function dragended(event, d) {
     if (d.id === 1) {  // Project Planning node
         d.fx = 50;  // Snap back to fixed x on the left
     } else if (d.id === 9) {  // Full Launch node
-        d.fx = width - 50;  // Snap back to fixed x on the right
+        d.fx = width - 150;  // Snap back to fixed x on the right
     } else {
         d.fx = null;  // Allow other nodes to stay where they are
     }
@@ -125,8 +125,9 @@ function handleMouseOver(event, d) {
     link
         .style("stroke", l => (l.source === d || l.target === d) ? "#ff0000" : "#999")
         .style("stroke-width", l => (l.source === d || l.target === d) ? 3 : 1.5);
-    node
-        .attr("r", n => (n === d) ? 30 : 20);
+    node.select("rect")
+        .attr("stroke", n => (n === d) ? "#ff0000" : "steelblue")
+        .attr("stroke-width", n => (n === d) ? 3 : 2);
 }
 
 // Reset the highlighting on mouseout
@@ -134,8 +135,9 @@ function handleMouseOut() {
     link
         .style("stroke", "#999")
         .style("stroke-width", 1.5);
-    node
-        .attr("r", 20);
+    node.select("rect")
+        .attr("stroke", "steelblue")
+        .attr("stroke-width", 2);
 }
 
 // Resize SVG and elements on window resize
@@ -148,5 +150,5 @@ window.addEventListener("resize", () => {
 
     // Update the fixed x positions for Project Planning and Full Launch nodes
     tasks.find(d => d.id === 1).fx = 50;
-    tasks.find(d => d.id === 9).fx = newWidth - 50;
+    tasks.find(d => d.id === 9).fx = newWidth - 150;
 });
